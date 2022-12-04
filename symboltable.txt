@@ -1,3 +1,4 @@
+----------Symbol Table----------
 FIRST	0000
 CLOOP	0006
 ENDFIL	001a

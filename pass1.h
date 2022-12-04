@@ -1,3 +1,6 @@
+#ifndef PASS1_H
+#define PASS1_H
+
 #include <fstream>
 #include <vector>
 #include <sstream>
@@ -36,11 +39,14 @@ int getStartAddress(vector<vector<string> > code){
     return hexToDec(code[0][2]);
 }
 
-void addressCounter(vector<vector<string> > code, vector<int> &location, int lines){
+void addressCounter(vector<vector<string> > code, vector<int> &location, int lines, vector<int> &locationForText){
     location.push_back(getStartAddress(code));
+    locationForText.push_back(getStartAddress(code));
     int address = getStartAddress(code);
-
+    bool last = false;
+    
     for(int i = 1; i < lines; i++){
+
         if(code[i].size() == 1){
             if(code[i][0][0]== '+') address += 4;
             else address += 3;
@@ -50,6 +56,7 @@ void addressCounter(vector<vector<string> > code, vector<int> &location, int lin
             else if(code[i][0] == "ADDR" || code[i][0] == "CLEAR" || code[i][0] == "COMPR" || code[i][0] == "DIVR" || code[i][0] == "MULR" || code[i][0] == "SUBR" || code[i][0] == "TIXR") address += 2;
             else if(code[i][0] == "BASE"){
                 location.push_back(address);
+                locationForText.push_back(address);
                 continue;
             }
             else address += 3;
@@ -64,6 +71,7 @@ void addressCounter(vector<vector<string> > code, vector<int> &location, int lin
                         address += 1;
                         location.push_back(address);
                     }
+                    locationForText.push_back(address);
                     continue;
                 }
                 else if(code[i][2][0]=='C' || code[i][2][0]=='c'){
@@ -71,6 +79,7 @@ void addressCounter(vector<vector<string> > code, vector<int> &location, int lin
                         address += 1;
                         location.push_back(address);
                     }
+                    locationForText.push_back(address);
                     continue;
                 }
             }
@@ -78,11 +87,13 @@ void addressCounter(vector<vector<string> > code, vector<int> &location, int lin
             else if(code[i][1] == "ADDR" || code[i][1] == "CLEAR" || code[i][1] == "COMPR" || code[i][1] == "DIVR" || code[i][1] == "MULR" || code[i][1] == "SUBR" || code[i][1] == "TIXR") address+=2;
             else if(code[i][1]=="EQU"){
                 location.push_back(address);
+                locationForText.push_back(address);
                 continue;
             }
-            else address+=3;
+            else address += 3;
         }
         location.push_back(address);
+        locationForText.push_back(address);
     }
     return;
 }
@@ -117,6 +128,7 @@ void printSymbolTable(vector<pair<string,string> > symbolTable){
     //     string value = iter -> second;
     //     file<<key<<"\t"<<hex<< setfill('0') << setw(4) << value<<endl;
     // }
+    file<<"----------Symbol Table----------"<<endl;
     for(int i = 0; i < symbolTable.size(); i++){
         string key = symbolTable[i].first;
         string value = symbolTable[i].second;
@@ -125,3 +137,5 @@ void printSymbolTable(vector<pair<string,string> > symbolTable){
     file.close();
     return;
 }
+
+#endif
