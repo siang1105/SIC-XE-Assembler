@@ -1,15 +1,18 @@
-----------Symbol Table----------
-FIRST	0000
-CLOOP	0006
-ENDFIL	001a
-EOF	002d
-RETADR	0030
-LENGTH	0033
-BUFFER	0036
-RDREC	1036
-RLOOP	1040
-EXIT	1056
-INPUT	105c
-WRREC	105d
-WLOOP	1062
-OUTPUT	1076
+        Symbol Table
+--------------------------------
+      Symbol|   Loc
+--------------------------------
+       FIRST|	0000
+      ENDFIL|	0006
+         EOF|	0019
+      RETADR|	001c
+      LENGTH|	001f
+      BUFFER|	0022
+       RDREC|	1022
+       RLOOP|	102c
+        EXIT|	1042
+       INPUT|	1048
+       WRREC|	1049
+       WLOOP|	104e
+      OUTPUT|	1062
+--------------------------------

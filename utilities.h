@@ -6,7 +6,6 @@
 using namespace std;
 
 int hexToDec(string str){
-
     int address;
     stringstream stream;
     stream << str;
@@ -14,7 +13,6 @@ int hexToDec(string str){
 
     return address;
 }
-
 
 int stringToDec(string str){
     int output;
@@ -31,7 +29,6 @@ string intToHexString(int input){
 }
 
 int hexStringToDec(string str){
-    // cout<<str<<endl;
     int output;
     stringstream stream;
     stream <<hex<<str;
@@ -122,7 +119,6 @@ int handleFormat3(vector<string> line, string instruction ,map<string,string>opT
 
 int handleFormat2(vector<string> line, string instruction ,map<string,string>opTable){
     string r1,r2;
-    
     if(line.size() == 2){
         int commaIndex = line[1].find(',');// 找不到回傳-1
         if(line[1].find(',') == std::string::npos){

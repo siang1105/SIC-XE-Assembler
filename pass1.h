@@ -53,7 +53,7 @@ void addressCounter(vector<vector<string> > code, vector<int> &location, int lin
         } 
         else if(code[i].size() == 2){
             if(code[i][0][0] == '+') address += 4;
-            else if(code[i][0] == "ADDR" || code[i][0] == "CLEAR" || code[i][0] == "COMPR" || code[i][0] == "DIVR" || code[i][0] == "MULR" || code[i][0] == "SUBR" || code[i][0] == "TIXR") address += 2;
+            else if(code[i][0] == "ADDR" || code[i][0] == "CLEAR" || code[i][0] == "COMPR" || code[i][0] == "TIXR") address += 2;
             else if(code[i][0] == "BASE"){
                 location.push_back(address);
                 locationForText.push_back(address);
@@ -84,7 +84,7 @@ void addressCounter(vector<vector<string> > code, vector<int> &location, int lin
                 }
             }
             else if(code[i][1][0] == '+') address += 4;
-            else if(code[i][1] == "ADDR" || code[i][1] == "CLEAR" || code[i][1] == "COMPR" || code[i][1] == "DIVR" || code[i][1] == "MULR" || code[i][1] == "SUBR" || code[i][1] == "TIXR") address+=2;
+            else if(code[i][1] == "ADDR" || code[i][1] == "CLEAR" || code[i][1] == "COMPR" || code[i][1] == "TIXR") address+=2;
             else if(code[i][1]=="EQU"){
                 location.push_back(address);
                 locationForText.push_back(address);
@@ -113,27 +113,21 @@ void createSymbolTable(vector<vector<string> > code, vector<int> location, vecto
         }
         j++;
     }
-    // for( map<string,string>::const_iterator iter = symbolTable.begin(); iter != symbolTable.end(); ++iter ){
-    //     string key = it -> first;
-    //     string value = it -> second;
-
-    // }
 }
 
 void printSymbolTable(vector<pair<string,string> > symbolTable){
     ofstream file;
     file.open("symboltable.txt");
-    // for( map<string,string>::const_iterator iter = symbolTable.begin(); iter != symbolTable.end(); ++iter ){
-    //     string key = iter -> first;
-    //     string value = iter -> second;
-    //     file<<key<<"\t"<<hex<< setfill('0') << setw(4) << value<<endl;
-    // }
-    file<<"----------Symbol Table----------"<<endl;
+    file<<"        Symbol Table"<<endl;
+    file<<"--------------------------------"<<endl;
+    file << "      Symbol" << "|" << "   Loc" <<endl;
+    file<<"--------------------------------"<<endl;
     for(int i = 0; i < symbolTable.size(); i++){
         string key = symbolTable[i].first;
         string value = symbolTable[i].second;
-        file<<key<<"\t"<<hex<< setfill('0') << setw(4) << value<<endl;
+        file<<setfill(' ')<<setw(12)<<key<<"|"<<"\t"<<hex<< setfill('0') << setw(4) << value<<endl;
     }
+    file<<"--------------------------------"<<endl;
     file.close();
     return;
 }

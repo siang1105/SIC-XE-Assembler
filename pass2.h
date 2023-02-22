@@ -26,7 +26,7 @@ void generateOpcode(vector<vector<string> >code, vector<int>&objectCodeInt, map<
             if(code[i][0][0] == '+'){
                 objectCodeInt.push_back(handleFormat4(code[i], code[i][0], opTable));
             }
-            else if(code[i][0] == "ADDR" || code[i][0]=="CLEAR" || code[i][0]=="COMPR" || code[i][0]=="DIVR" || code[i][0]=="MULR" || code[i][0]=="SUBR" || code[i][0]=="TIXR"){
+            else if(code[i][0] == "ADDR" || code[i][0]=="CLEAR" || code[i][0]=="COMPR" || code[i][0]=="TIXR"){
                 objectCodeInt.push_back(handleFormat2(code[i], code[i][0], opTable));
             }
             else if(code[i][0] == "BASE"){
@@ -41,7 +41,7 @@ void generateOpcode(vector<vector<string> >code, vector<int>&objectCodeInt, map<
             if(code[i][1][0] == '+'){
                 objectCodeInt.push_back(handleFormat4(code[i], code[i][1], opTable));
             }
-            else if(code[i][1] == "ADDR" || code[i][1] == "CLEAR" || code[i][1] == "COMPR" || code[i][1] == "DIVR" || code[i][1]=="MULR" || code[i][1]=="SUBR" || code[i][1]=="TIXR"){
+            else if(code[i][1] == "ADDR" || code[i][1] == "CLEAR" || code[i][1] == "COMPR" || code[i][1]=="TIXR"){
                 objectCodeInt.push_back(handleFormat2(code[i], code[i][1] ,opTable));
             }
             else if(code[i][1] == "BASE"){
@@ -60,17 +60,6 @@ void generateOpcode(vector<vector<string> >code, vector<int>&objectCodeInt, map<
                         objectCodeInt.push_back(-3);
                     }
                 }
-                // bool oddflag = false;
-                // cout<<"stringLength % 2 "<<stringLength % 2<<endl;
-                // if(stringLength % 2){
-                //     cout<<"str "<<stringLength<<endl;
-                //     stringLength--;
-                //     oddflag = true;
-                // }
-                // for(int i = 0; i < stringLength; i += 2){
-                //     objectCodeInt.push_back(hexStringToDec(declaredValue.substr(i, 2)));
-                // }
-                // if(oddflag) objectCodeInt.push_back(hexStringToDec(declaredValue.substr(declaredValue.size() - 1, 1)));
             }
             else if((code[i][2][0] == 'C' || code[i][2][0] == 'c') && code[i][2].size() >= 3){
                 stringstream stream;
@@ -80,27 +69,6 @@ void generateOpcode(vector<vector<string> >code, vector<int>&objectCodeInt, map<
                 for(int i = 0; i < stringLength; i++){
                     objectCodeInt.push_back(-4);
                 }
-                // bool oddflag = false;
-                // int offset = 0;
-                // if(stringLength % 3){
-                //     offset = stringLength % 3;
-                //     oddflag = true;
-                // }
-                // for(int i = 0; i < stringLength - offset; i += 3){
-                //     stream << (int)declaredValue.substr(i, 3)[0] << (int)declaredValue.substr(i, 3)[1] << (int)declaredValue.substr(i,3)[2];
-                //     int temp;
-                //     stream >> temp;
-                //     stream.str(string());
-                //     objectCodeInt.push_back(temp);
-                // }
-                // if(oddflag){
-                //     for(int i = stringLength - offset; i < stringLength; i++)
-                //         stream << (int)declaredValue[i];
-                //     int temp;
-                //     stream >> temp;
-                //     stream.str(string());
-                //     objectCodeInt.push_back(temp);
-                // }
             }
             else{
                 objectCodeInt.push_back(handleFormat3(code[i], code[i][1], opTable));
@@ -154,7 +122,7 @@ void generateAddresses(vector<vector<string> >code, vector<string>&objectCode,ve
                     }
                     stream<<setfill('0')<<setw(8)<<intToHexString(tmp);
                     objectCode.push_back(stream.str());
-                    stream.str(std::string());
+                    stream.str(string());
                 }
                 else if(code[i][1][0] == '@'){
                     if(symbolTableMap.count(code[i][1].substr(1, code[i][1].size() - 1))>0){
@@ -168,14 +136,14 @@ void generateAddresses(vector<vector<string> >code, vector<string>&objectCode,ve
                         tmp = tmp | disp;
                         stream<<setfill('0')<<setw(8)<<intToHexString(tmp);
                         objectCode.push_back(stream.str());
-                        stream.str(std::string());
+                        stream.str(string());
                     }
                 }
                 else if(code[i][1].substr(code[i][1].size()-2,2) == ",X"){
                     if(symbolTableMap.count(code[i][1].substr(0, code[i][1].size() - 2)) > 0){
                         int tmp = objectCodeInt[getObjIndex];
                         getObjIndex++;
-                        tmp = tmp | 3; // ?
+                        tmp = tmp | 3; // 
                         tmp = tmp << 20;
                         int disp = (hexStringToDec(symbolTableMap.find(code[i][1].substr(0, code[i][1].size() - 2)) -> second)) - location[getLocationIndex];
                         getLocationIndex++;
@@ -183,7 +151,7 @@ void generateAddresses(vector<vector<string> >code, vector<string>&objectCode,ve
                         tmp = tmp | disp;
                         stream<<setfill('0')<<setw(8)<<intToHexString(tmp);
                         objectCode.push_back(stream.str());
-                        stream.str(std::string());
+                        stream.str(string());
                     }
                 }
                 else{
@@ -195,7 +163,7 @@ void generateAddresses(vector<vector<string> >code, vector<string>&objectCode,ve
                     tmp = tmp | disp;
                     stream<<setfill('0')<<setw(8)<<intToHexString(tmp);
                     objectCode.push_back(stream.str());
-                    stream.str(std::string());
+                    stream.str(string());
                 }
             }
             else if(code[i][0]=="ADDR" || code[i][0]=="CLEAR" || code[i][0]=="COMPR" || code[i][0]=="TIXR"){
@@ -225,7 +193,7 @@ void generateAddresses(vector<vector<string> >code, vector<string>&objectCode,ve
                         }
                         stream<<setfill('0')<<setw(6)<<intToHexString(tmp);
                         objectCode.push_back(stream.str());
-                        stream.str(std::string());
+                        stream.str(string());
                     }
                     else{
                         int tmp = objectCodeInt[getObjIndex];
@@ -239,7 +207,7 @@ void generateAddresses(vector<vector<string> >code, vector<string>&objectCode,ve
                         tmp = tmp | disp;
                         stream<<setfill('0')<<setw(6)<<intToHexString(tmp);
                         objectCode.push_back(stream.str());
-                        stream.str(std::string());
+                        stream.str(string());
                     }
                 }
                 else if(code[i][1][0] == '@'){
@@ -263,7 +231,7 @@ void generateAddresses(vector<vector<string> >code, vector<string>&objectCode,ve
                         }
                         stream<<setfill('0')<<setw(6)<<intToHexString(tmp);
                         objectCode.push_back(stream.str());
-                        stream.str(std::string());
+                        stream.str(string());
                     }
                 }
                 else if(code[i][1].substr(code[i][1].size() - 2, 2) == ",X"){
@@ -286,7 +254,7 @@ void generateAddresses(vector<vector<string> >code, vector<string>&objectCode,ve
                         }
                         stream<<setfill('0')<<setw(6)<<intToHexString(tmp);
                         objectCode.push_back(stream.str());
-                        stream.str(std::string());
+                        stream.str(string());
                     }
                 }
                 else{
@@ -308,7 +276,7 @@ void generateAddresses(vector<vector<string> >code, vector<string>&objectCode,ve
                     }
                     stream<<setfill('0')<<setw(6)<<intToHexString(tmp);
                     objectCode.push_back(stream.str());
-                    stream.str(std::string());
+                    stream.str(string());
                 }
             }
         }
@@ -325,7 +293,7 @@ void generateAddresses(vector<vector<string> >code, vector<string>&objectCode,ve
                         tmp = tmp | disp;
                         stream<<setfill('0')<<setw(8)<<intToHexString(tmp);
                         objectCode.push_back(stream.str());
-                        stream.str(std::string());
+                        stream.str(string());
                     }
                     else{
                         int tmp = objectCodeInt[getObjIndex];
@@ -337,7 +305,7 @@ void generateAddresses(vector<vector<string> >code, vector<string>&objectCode,ve
                         tmp = tmp | disp;
                         stream<<setfill('0')<<setw(8)<<intToHexString(tmp);
                         objectCode.push_back(stream.str());
-                        stream.str(std::string());
+                        stream.str(string());
                     }
                 }
                 else if(code[i][2][0] == '@'){
@@ -352,7 +320,7 @@ void generateAddresses(vector<vector<string> >code, vector<string>&objectCode,ve
                         tmp = tmp | disp;
                         stream<<setfill('0')<<setw(8)<<intToHexString(tmp);
                         objectCode.push_back(stream.str());
-                        stream.str(std::string());
+                        stream.str(string());
                     }
                 }
                 else if(code[i][2].substr(code[i][2].size()-2,2) == ",X"){
@@ -367,7 +335,7 @@ void generateAddresses(vector<vector<string> >code, vector<string>&objectCode,ve
                         tmp = tmp | disp;
                         stream<<setfill('0')<<setw(8)<<intToHexString(tmp);
                         objectCode.push_back(stream.str());
-                        stream.str(std::string());
+                        stream.str(string());
                     }
                 }
                 else{
@@ -379,7 +347,7 @@ void generateAddresses(vector<vector<string> >code, vector<string>&objectCode,ve
                     tmp = tmp | disp;
                     stream<<setfill('0')<<setw(8)<<intToHexString(tmp);
                     objectCode.push_back(stream.str());
-                    stream.str(std::string());
+                    stream.str(string());
                 }
             }
             else if(code[i][1]=="ADDR" || code[i][1]=="CLEAR" || code[i][1]=="COMPR" || code[i][1]=="TIXR"){
@@ -437,7 +405,7 @@ void generateAddresses(vector<vector<string> >code, vector<string>&objectCode,ve
                         }
                         stream<<setfill('0')<<setw(6)<<intToHexString(tmp);
                         objectCode.push_back(stream.str());
-                        stream.str(std::string());
+                        stream.str(string());
                     }
                     else{
                         int tmp = objectCodeInt[getObjIndex];
@@ -449,7 +417,7 @@ void generateAddresses(vector<vector<string> >code, vector<string>&objectCode,ve
                         tmp = tmp | disp;
                         stream<<setfill('0')<<setw(6)<<intToHexString(tmp);
                         objectCode.push_back(stream.str());
-                        stream.str(std::string());
+                        stream.str(string());
                     }
                 }
                 else if(code[i][2][0]=='@'){
@@ -473,7 +441,7 @@ void generateAddresses(vector<vector<string> >code, vector<string>&objectCode,ve
                         }
                         stream<<setfill('0')<<setw(6)<<intToHexString(tmp);
                         objectCode.push_back(stream.str());
-                        stream.str(std::string());
+                        stream.str(string());
                     }
                 }
                 else if(code[i][2].substr(code[i][2].size()-2, 2) == ",X"){
@@ -497,7 +465,7 @@ void generateAddresses(vector<vector<string> >code, vector<string>&objectCode,ve
                         }
                         stream<<setfill('0')<<setw(6)<<intToHexString(tmp);
                         objectCode.push_back(stream.str());
-                        stream.str(std::string());
+                        stream.str(string());
                     }
                 }
                 else{
@@ -519,7 +487,7 @@ void generateAddresses(vector<vector<string> >code, vector<string>&objectCode,ve
                     }
                     stream<<setfill('0')<<setw(6)<<intToHexString(tmp);
                     objectCode.push_back(stream.str());
-                    stream.str(std::string());
+                    stream.str(string());
                 }
             }
         }
@@ -529,11 +497,11 @@ void generateAddresses(vector<vector<string> >code, vector<string>&objectCode,ve
 void generateObjectCode(vector<string> objectCode){
         ofstream file;
         file.open("ObjectCode.txt");
-        file<<"----------Object Code----------"<<endl;
+        file<<"        Object Code"<<endl;
+        file<<"--------------------------------"<<endl;
         for(int i = 0; i < objectCode.size(); i++){
             file<<objectCode[i]<<endl;
         }
-        
         file.close();
 }
 

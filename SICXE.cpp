@@ -7,12 +7,12 @@
 #include "pass1.h"
 #include "pass2.h"
 #include "optable.h"
-#include "hte.h"
+#include "objProgram.h"
 
 using namespace std;
 
 int main(){
-    vector<vector<string> > code(1000);
+    vector<vector<string> > code(1005);
     vector<int> location;
     vector<int> locationForText;
     map<string,string> symbolTableMap;
@@ -20,7 +20,7 @@ int main(){
     map<string,string> opTable;
     vector<int> objectCodeInt;
     vector<string>objectCode;
-    vector<string>hteRecord;
+    vector<string>htmeRecord;
 
     int lines = readFile(code);
     int baseAddress;
@@ -33,28 +33,27 @@ int main(){
     generateOpcode(code,objectCodeInt,opTable,symbolTableMap,baseAddress,lines-1);
     generateAddresses(code,objectCode,objectCodeInt,symbolTableMap,location,baseAddress,lines-1);
     generateObjectCode(objectCode);
-    createHead(code,location,hteRecord);
-    createText(code,locationForText,hteRecord,objectCode,lines-1);
-    createModification(locationForText,hteRecord,code);
-    createEnd(location,hteRecord);
-    generateHTEFile(hteRecord);
-    // cout<<"size "<<objectCodeInt.size()<<endl;
-    // for(int i = 0; i < objectCodeInt.size(); i++){
-    //     cout<<"i = "<<i<<" "<<intToHexString(objectCodeInt[i])<<" "<<objectCodeInt[i]<<endl;
+    createHead(code,location,htmeRecord);
+    createText(code,locationForText,htmeRecord,objectCode,lines-1);
+    createModification(locationForText,htmeRecord,code);
+    createEnd(location,htmeRecord);
+    generateHTMEFile(htmeRecord);
+    
+    // cout<<"-------------------------------"<<endl;
+    // for(int i=0;i<location.size();i++){
+    //     cout<<i<<" "<<std::setfill('0')<<std::setw(4)<<intToHexString(location[i])<<" "<<location[i]<<endl;
     // }
-    cout<<"-------------------------------"<<endl;
-    for(int i=0;i<location.size();i++){
-        cout<<i<<" "<<std::setfill('0')<<std::setw(4)<<intToHexString(location[i])<<" "<<location[i]<<endl;
-    }
-    cout<<"-------------------------------"<<endl;
-    for(int i = 0; i < objectCode.size(); i++){
-        cout<<objectCode[i]<<endl;
-    }
-    cout<<"-------------------------------"<<endl;
-    for(int i = 0; i < locationForText.size(); i++){
-        cout<<i<<" "<<std::setfill('0')<<std::setw(4)<<intToHexString(locationForText[i])<<" "<<locationForText[i]<<endl;
-    }
-    // cout<<address<<endl;
+    // cout<<"-------------------------------"<<endl;
+    // for(int i = 0; i < objectCode.size(); i++){
+    //     cout<<objectCode[i]<<endl;
+    // }
+    // cout<<"-------------------------------"<<endl;
+    // for(int i = 0; i < locationForText.size(); i++){
+    //     cout<<i<<" "<<std::setfill('0')<<std::setw(4)<<intToHexString(locationForText[i])<<" "<<locationForText[i]<<endl;
+    // }
+
+    cout<<"SIX-XE-Assembler success !"<<endl;
+    
 
     return 0;
 }

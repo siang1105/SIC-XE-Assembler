@@ -1,5 +1,5 @@
-#ifndef HTE_H
-#define HTE_H
+#ifndef objProgram_H
+#define objProgram_H
 
 #include <fstream>
 #include <vector>
@@ -9,7 +9,7 @@
 #include <string>
 #include "utilities.h"
 
-void createHead(vector<vector<string> > code, vector<int> location, vector<string> &hteRecord){
+void createHead(vector<vector<string> > code, vector<int> location, vector<string> &htmeRecord){
     stringstream stream;
     int programLength = location[location.size() - 1] - location[0];
     string head = "H ";
@@ -24,10 +24,10 @@ void createHead(vector<vector<string> > code, vector<int> location, vector<strin
     stream<<setfill('0') << setw(6) << hex << programLength ;
     head += stream.str();
     cout<<"head "<<head<<endl;
-    hteRecord.push_back(head);
+    htmeRecord.push_back(head);
 }
 
-void createText(vector<vector<string> > code, vector<int> location, vector<string> &hteRecord, vector<string>objectCode,int lines){
+void createText(vector<vector<string> > code, vector<int> location, vector<string> &htmeRecord, vector<string>objectCode,int lines){
     int capacity = 60;
     stringstream stream;
     vector<vector<pair<string,int> > > textPool;
@@ -78,11 +78,11 @@ void createText(vector<vector<string> > code, vector<int> location, vector<strin
             text += textPool[i][j].first + " ";
         }
         cout<<"text "<<text<<endl;
-        hteRecord.push_back(text);
+        htmeRecord.push_back(text);
     }
 }
 
-void createModification(vector<int> location,vector<string> &hteRecord, vector<vector<string> > code){
+void createModification(vector<int> location,vector<string> &htmeRecord, vector<vector<string> > code){
     string Modify = "M ";
     stringstream stream;
     int address;
@@ -94,7 +94,7 @@ void createModification(vector<int> location,vector<string> &hteRecord, vector<v
                 Modify += stream.str() + " ";
                 stream.str(string());
                 Modify += "05";
-                hteRecord.push_back(Modify);
+                htmeRecord.push_back(Modify);
                 Modify = "M ";
             }
         }
@@ -106,7 +106,7 @@ void createModification(vector<int> location,vector<string> &hteRecord, vector<v
                 stream.str(string());
                 Modify += "05";
                 cout<<"Modify "<<Modify<<endl;
-                hteRecord.push_back(Modify);
+                htmeRecord.push_back(Modify);
                 Modify = "M ";
             }
         }
@@ -114,21 +114,22 @@ void createModification(vector<int> location,vector<string> &hteRecord, vector<v
     }
 }
 
-void createEnd(vector<int> location, vector<string> &hteRecord){
+void createEnd(vector<int> location, vector<string> &htmeRecord){
     stringstream stream;
     string End = "E ";
     stream<<setfill('0') << setw(6) << hex << location[0] ;
     End += stream.str();
     cout<<"End "<<End<<endl;
-    hteRecord.push_back(End);
+    htmeRecord.push_back(End);
 }
 
-void generateHTEFile(vector<string> hteRecord){
+void generateHTMEFile(vector<string> htmeRecord){
         ofstream file;
-        file.open("HTE.txt");
-        file<<"----------Object Program----------"<<endl;
-        for(int i = 0; i < hteRecord.size(); i++){
-            file<<hteRecord[i]<<endl;
+        file.open("ObjectProgram.txt");
+        file<<"        Object Program"<<endl;
+        file<<"--------------------------------"<<endl;
+        for(int i = 0; i < htmeRecord.size(); i++){
+            file<<htmeRecord[i]<<endl;
         }
         
         file.close();
